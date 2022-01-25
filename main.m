@@ -1,12 +1,11 @@
-% 24.01.2022 gecgelcem
-% BOUN ME 424
-
 clc();
 clear();
 close('all');
 
-a = 3;
-b = 1;
+% Given / Input
+% ~~~~~~~~~~~~~
+a = 3; % Cem GEÇGEL
+b = 1; % Mustafa Çağatay SİPAHİOĞLU
 C_min = 4;
 C_max = 12;
 materials = [
