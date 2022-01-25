@@ -1,6 +1,10 @@
 % 24.01.2022 gecgelcem
 % BOUN ME 424
 
+clc();
+clear();
+close('all');
+
 a = 3;
 b = 1;
 C_min = 4;
@@ -49,6 +53,18 @@ d_standards = [
 	13.0
 	14.0
 ]*1e-3;
+materials = [
+	material("A227", 0.5e-3, 16e-3, -0.1822, 1753.3e6, 100e6)
+	material("A228", 0.3e-3,  6e-3, -0.1625, 2153.3e6, 200e6)
+	material("A229", 0.5e-3, 16e-3, -0.1833, 1831.2e6, 130e6)
+	material("A232", 0.5e-3, 12e-3, -0.1453, 1909.9e6, 250e6)
+	material("A401", 0.8e-3, 11e-3, -0.0934, 2059.2e6, 400e6)
+];
+
+for k_material = 1:length(materials)
+	material = materials(k_material);
+	material.find_strength(14e-3)
+end
 
 function K_w = f_K_w(C)
 	K_w = (4*C-1)/(4*C-4)+0.615/C;
@@ -86,38 +102,10 @@ function S_y = f_S_y(S_u)
 	S_y = 0.75*S_u;
 end
 
-function S_u = f_S_u(material, d)
-	persistent materials
-	if isempty(materials)
-		materials = [
-			-0.1822 1753.3e6
-			-0.1625 2153.3e6
-			-0.1833 1831.2e6
-			-0.1453 1909.9e6
-			-0.0934 2059.2e6
-		];
-	end
-	S_u = materials(material, 2)*(d*1e3)^materials(material, 1);
-end
-
 function delta_cl = f_delta_cl(delta_working)
 	delta_cl = 0.1*delta_working;
 end
 
 function SF_surge = f_SF_surge(f_n, f)
 	SF_surge = f_n/f;
-end
-
-function cost = f_cost(material, d, N_t, D)
-	persistent materials
-    if isempty(materials)
-        materials = [
-        	100
-        	200
-        	130
-            250
-            400
-        ]*1e6;
-    end
-	cost = materials(material)*d^2*N_t*D;
 end
