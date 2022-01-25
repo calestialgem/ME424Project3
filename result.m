@@ -12,6 +12,10 @@ properties
 	S_y
 	S_ys
 	S_s
+	N_a
+	lambda_eff
+	delta_cr
+	SF_buckling
 end
 methods
 function self = result(given, material, C, d)
@@ -35,6 +39,9 @@ end
 function N_a = find_fatigue_limit(self)
 end
 function N_a = find_buckling_limit(self)
+	lambda_eff = 0.5*L_f/D;
+	delta_cr = L_f*c_1*(1-sqrt(1-c_2/lambda_eff^2));
+	SF_buckling = delta_cr/delta_max;
 end
 function print(self)
 	file = printer('ME424_Project3_Gecgel_Sipahioglu.txt');

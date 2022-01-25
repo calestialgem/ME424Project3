@@ -17,6 +17,10 @@ properties
 	S_y_percentage
 	S_ys_percentage
 	S_s_percentage
+	E
+	G
+	c_1
+	c_2
 end
 methods
 function self = given(a, b)
@@ -37,6 +41,10 @@ function self = given(a, b)
 	self.S_y_percentage = 0.75;
 	self.S_ys_percentage = 0.45;
 	self.S_s_percentage = 0.365;
+	self.E = 200e9;
+	self.G = 79e9;
+	self.c_1 = self.E/2/(self.E-self.G);
+	self.c_2 = 2*pi^2*(self.E-self.G)/(2*self.G+self.E);
 end
 end
 end
