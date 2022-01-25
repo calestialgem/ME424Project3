@@ -28,7 +28,7 @@ function self = given(a, b)
 	self.C_max = 12;
 	self.SF_yield_min = 1;
 	self.SF_surge_min = 5;
-	self.S_s_percentage = 36.3424;
+	self.S_s_percentage = 36.5;
 	self.SF_fatigue_min = 1.2;
 	self.SF_buckling_min = 1.5;
 end
