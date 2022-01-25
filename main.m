@@ -2,12 +2,9 @@ clc();
 clear();
 close('all');
 
-% Given / Input
-% ~~~~~~~~~~~~~
-a = 3; % Cem GEÇGEL
-b = 1; % Mustafa Çağatay SİPAHİOĞLU
-C_min = 4;
-C_max = 12;
+% a = 1 Cem GEÇGEL
+% b = 3 Mustafa Çağatay SİPAHİOĞLU
+given = given(3, 1);
 materials = [
 	material("A227", 0.5e-3, 16e-3, -0.1822, 1753.3e6, 100e6)
 	material("A228", 0.3e-3,  6e-3, -0.1625, 2153.3e6, 200e6)
