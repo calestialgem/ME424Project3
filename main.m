@@ -61,11 +61,6 @@ materials = [
 	material("A401", 0.8e-3, 11e-3, -0.0934, 2059.2e6, 400e6)
 ];
 
-for k_material = 1:length(materials)
-	material = materials(k_material);
-	material.find_strength(14e-3)
-end
-
 function K_w = f_K_w(C)
 	K_w = (4*C-1)/(4*C-4)+0.615/C;
 end
