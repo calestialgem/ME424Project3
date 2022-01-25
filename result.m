@@ -41,8 +41,12 @@ function N_a = find_surge_limit(self)
 end
 function N_a = find_fatigue_limit(self)
 end
-function N_a = find_buckling_limit(self)
-
+function N_a_max = find_buckling_limit(self)
+	delta_cr_min = self.given.SF_buckling_min*self.given.delta_max;
+	L_f_max = max(self.given.c_1*self.given.c_2*self.D^2/2/delta_cr_min/self.given.alpha+delta_cr_min/2/self.given.c_1, sqrt(self.given.c_2)*self.D/self.given.alpha);
+	L_s_max = L_f_max-1.1*self.given.delta_max;
+	N_t_max = L_s_max/self.d-1;
+	N_a_max = N_t_max-2;
 end
 function print(self)
 	file = printer('ME424_Project3_Gecgel_Sipahioglu.txt');
