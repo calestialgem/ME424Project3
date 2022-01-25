@@ -13,6 +13,18 @@ function self = result(given, material, C, d)
 	self.material = material;
 	self.C = C;
 	self.d = d;
+	S_ut = self.material.find_strength(self.d);
+	S_us = S_ut*self.given.S_us_percentage;
+	S_s = S_ut*self.given.S_s_percentage;
+	K_w = (4*C-1)/(4*C-4)+0.615/C;
+	tau_a = K_w*8*(given.F_max-given.F_min)/2*C/pi/d^2;
+	tau_m = K_w*8*abs(given.F_max+given.F_min)*C/pi/d^2;
+	S_f = S_s/2/(1-S_s/2/S_us);
+	SF_fatigue = 1/(tau_a/S_f+tau_m/S_us);
+	if SF_fatigue < given.SF_fatigue_min
+		self.cost = inf;
+		return;
+	end
 	N_t_max = min(self.find_surge_limit(), self.find_buckling_limit());
 	N_t_min = self.find_yield_limit();
 	if N_t_min > N_t_max
@@ -65,7 +77,11 @@ function print(self)
 	S_ys = S_ut*self.given.S_ys_percentage;
 	tau_s = K_s*8*F_s*self.C/pi/self.d^2;
 	SF_yield = S_ys/tau_s;
+	tau_a = K_w*8*(self.given.F_max-self.given.F_min)/2*self.C/pi/self.d^2;
+	tau_m = K_w*8*abs(self.given.F_max+self.given.F_min)*self.C/pi/self.d^2;
 	S_s = S_ut*self.given.S_s_percentage;
+	S_f = S_s/2/(1-S_s/2/S_us);
+	SF_fatigue = 1/(tau_a/S_f+tau_m/S_us);
 	file = printer('ME424_Project3_Gecgel_Sipahioglu.txt');
 	file.print('F_min = %g N', self.given.F_min);
 	file.print('F_max = %g N', self.given.F_max);
@@ -93,7 +109,10 @@ function print(self)
 	file.print('S_ys = %g Pa', S_ys);
 	file.print('tau_s = %g Pa', tau_s);
 	file.print('SF_yield = %g', SF_yield);
+	file.print('tau_a = %g Pa', tau_a);
+	file.print('tau_m = %g Pa', tau_m);
 	file.print('S_s = %g Pa', S_s);
+	file.print('SF_fatigue = %g', SF_fatigue);
 	file.print('cost = %g ₺', self.cost);
 end
 end
