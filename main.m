@@ -60,3 +60,15 @@ end
 function SF_surge = f_SF_surge(f_n, f)
 	SF_surge = f_n/f;
 end
+
+function SF_buckling = f_SF_buckling(L_f, D, delta_max)
+	persistent c_1
+	persistent c_2
+	if isempty(c_1)
+		c_1 = 200e9/2/(200e9-79e9);
+		c_2 = 2*pi^2*(200e9-79e9)/(2*79e9+200e9);
+	end
+	lambda_eff = 0.5*L_f/D;
+	delta_cr = L_f*c_1*(1-sqrt(1-c_2/lambda_eff^2));
+	SF_buckling = delta_cr/delta_max;
+end
