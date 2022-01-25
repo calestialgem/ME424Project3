@@ -28,8 +28,8 @@ function N_a = f_N_a(N_t)
 	N_a = N_t-2;
 end
 
-function SF_sy = f_SF_sy(S_sy, tau_max)
-	SF_sy = S_sy/tau_max;
+function SF_sy = f_SF_sy(S_ys, tau_max)
+	SF_sy = S_ys/tau_max;
 end
 
 function delta_cl = f_delta_cl(delta_working)

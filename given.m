@@ -13,8 +13,9 @@ properties
 	SF_surge_min
 	SF_fatigue_min
 	SF_buckling_min
+	S_us_percentage
 	S_y_percentage
-	S_sy_percentage
+	S_ys_percentage
 	S_s_percentage
 end
 methods
@@ -32,8 +33,9 @@ function self = given(a, b)
 	self.SF_surge_min = 5;
 	self.SF_fatigue_min = 1.2;
 	self.SF_buckling_min = 1.5;
+	self.S_us_percentage = 0.8;
 	self.S_y_percentage = 0.75;
-	self.S_sy_percentage = 0.45;
+	self.S_ys_percentage = 0.45;
 	self.S_s_percentage = 0.365;
 end
 end

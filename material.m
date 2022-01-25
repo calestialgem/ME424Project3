@@ -61,8 +61,8 @@ function self = material(name, d_min, d_max, b, A, cost_mul)
 	self.A = A;
 	self.cost_mul = cost_mul;
 end
-function S_u = find_strength(self, d)
-	S_u = self.A*(d/1e-3)^self.b;
+function S_ut = find_strength(self, d)
+	S_ut = self.A*(d/1e-3)^self.b;
 end
 function cost = find_cost(self, d, N_t, D)
 	cost = self.cost_mul*d^2*N_t*D;
