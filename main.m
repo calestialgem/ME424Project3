@@ -2,8 +2,8 @@ clc();
 clear();
 close('all');
 
-% a = 1 Cem GEÇGEL
-% b = 3 Mustafa Çağatay SİPAHİOĞLU
+% Cem GEÇGEL					2018405033	a = 3
+% Mustafa Çağatay SİPAHİOĞLU	2018405171	b = 1
 given = given(3, 1);
 materials = [
 	material("A227", 0.5e-3, 16e-3, -0.1822, 1753.3e6, 100e6)
