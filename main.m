@@ -16,6 +16,9 @@ materials = [
 	material("A401", 0.8e-3, 11e-3, -0.0934, 2059.2e6, 400e6)
 ];
 
+result = result(8);
+result.print();
+
 function K_w = f_K_w(C)
 	K_w = (4*C-1)/(4*C-4)+0.615/C;
 end
