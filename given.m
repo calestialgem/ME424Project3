@@ -21,6 +21,7 @@ properties
 	G
 	c_1
 	c_2
+	alpha
 end
 methods
 function self = given(a, b)
@@ -45,6 +46,7 @@ function self = given(a, b)
 	self.G = 79e9;
 	self.c_1 = self.E/2/(self.E-self.G);
 	self.c_2 = 2*pi^2*(self.E-self.G)/(2*self.G+self.E);
+	self.alpha = 0.5;
 end
 end
 end
