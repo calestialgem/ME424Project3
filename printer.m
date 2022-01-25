@@ -1,4 +1,4 @@
-classdef printer
+classdef printer < handle
 properties
 	file
 end
@@ -11,12 +11,11 @@ function self = printer(file_name)
 	end
 	self.file = file;
 end
-function close(self)
+function delete(self)
 	if fclose(self.file) ~= 0
 		fprintf(2, "Error while closing the file\n");
 		return;
 	end
-	self.file = [];
 end
 function print(self, varargin)
 	message = sprintf(varargin{:});
