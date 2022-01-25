@@ -19,6 +19,7 @@ properties
 	S_s_percentage
 	E
 	G
+	rho
 	c_1
 	c_2
 	alpha
@@ -44,6 +45,7 @@ function self = given(a, b)
 	self.S_s_percentage = 0.365;
 	self.E = 200e9;
 	self.G = 79e9;
+	self.rho = 7700;
 	self.c_1 = self.E/2/(self.E-self.G);
 	self.c_2 = 2*pi^2*(self.E-self.G)/(2*self.G+self.E);
 	self.alpha = 0.5;
