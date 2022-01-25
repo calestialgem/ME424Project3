@@ -35,7 +35,8 @@ function self = result(given, material, C, d)
 	% delta_cr = L_f*c_1*(1-sqrt(1-c_2/lambda_eff^2));
 	% SF_buckling = delta_cr/delta_max;
 end
-function N_a = find_yield_limit(self)
+function N_a_min = find_yield_limit(self)
+	N_a_min = self.K_s*1.1*self.given.delta_max*self.given.G*self.given.SF_yield_min/pi/self.d/self.C^2/self.given.S_ys;
 end
 function N_a = find_surge_limit(self)
 end
