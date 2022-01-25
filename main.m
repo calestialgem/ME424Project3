@@ -16,18 +16,6 @@ materials = [
 result = result(given, materials(1), 8, 1e-3);
 result.print();
 
-function K_w = f_K_w(C)
-	K_w = (4*C-1)/(4*C-4)+0.615/C;
-end
-
-function K_s = f_K_s(C)
-	K_s = 1+0.5/C;
-end
-
-function D = f_D(C, d)
-	D = C*d;
-end
-
 function k = f_k(d, C, N_a)
 	k = 79e9*d/8/C^3/N_a;
 end
@@ -42,14 +30,6 @@ end
 
 function SF_sy = f_SF_sy(S_sy, tau_max)
 	SF_sy = S_sy/tau_max;
-end
-
-function S_sy = f_S_sy(S_u)
-	S_sy = 0.45*S_u;
-end
-
-function S_y = f_S_y(S_u)
-	S_y = 0.75*S_u;
 end
 
 function delta_cl = f_delta_cl(delta_working)

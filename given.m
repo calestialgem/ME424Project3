@@ -11,9 +11,11 @@ properties
 	C_max
 	SF_yield_min
 	SF_surge_min
-	S_s_percentage
 	SF_fatigue_min
 	SF_buckling_min
+	S_y_percentage
+	S_sy_percentage
+	S_s_percentage
 end
 methods
 function self = given(a, b)
@@ -28,9 +30,11 @@ function self = given(a, b)
 	self.C_max = 12;
 	self.SF_yield_min = 1;
 	self.SF_surge_min = 5;
-	self.S_s_percentage = 36.5;
 	self.SF_fatigue_min = 1.2;
 	self.SF_buckling_min = 1.5;
+	self.S_y_percentage = 0.75;
+	self.S_sy_percentage = 0.45;
+	self.S_s_percentage = 0.365;
 end
 end
 end
