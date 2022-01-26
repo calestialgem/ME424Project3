@@ -28,4 +28,5 @@ tau_a = 1.34215e+08 Pa
 tau_m = 3.72734e+08 Pa
 S_s = 4.55026e+08 Pa
 SF_fatigue = 1.20615
+Material = A227 Cold Drawn
 cost = 1246.04 ₺
