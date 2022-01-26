@@ -27,3 +27,5 @@ for material = materials
 end
 optimum.print();
 toc();
+second_solution = result(given, materials(1), 5.61, 6e-3);
+second_solution.print();
