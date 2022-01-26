@@ -13,6 +13,9 @@ properties (Access = private)
 	K_s
 	K_w
 	k
+	delta_max
+	delta_cl
+	delta_s
 	N_t
 	N_a
 	L_s
@@ -35,21 +38,27 @@ function self = result(given, material, C, d)
 	self.material = material;
 	self.C = C;
 	self.d = d;
-	self = self.calculate_independents();
-	% Find the amount of coils.
-	N_t_max = min(self.find_surge_limit(), self.find_buckling_limit());
-	N_t_min = self.find_yield_limit();
-	if N_t_min > N_t_max
-		self.cost = inf;
-		return
-	end
-	self.N_t = N_t_min;
-	self = self.calculate_dependents();
+	self.D = self.C*self.d;
+	self.S_ut = self.material.find_strength(self.d);
+	self.S_us = self.S_ut*self.given.S_us_percentage;
+	self.S_y = self.S_ut*self.given.S_y_percentage;
+	self.S_ys = self.S_ut*self.given.S_ys_percentage;
+	self.S_s = self.S_ut*self.given.S_s_percentage;
+	self.K_s = 1+0.5/self.C;
+	self.K_w = (4*self.C-1)/(4*self.C-4)+0.615/self.C;
+	self.k = (self.given.F_max-self.given.F_min)/self.given.delta_working;
+	self.delta_max = self.given.F_max/self.k;
+	self.delta_cl = 0.1*self.given.delta_working;
+	self.delta_s = self.delta_cl+self.delta_max;
+	self.N_a = self.given.G*self.d/8/self.C^3/self.k;
+	self.N_t = self.N_a+2;
+	self.L_s = (self.N_t+1)*self.d;
+	self.L_f = self.L_s+self.delta_s;
 	self = self.buckling_analysis();
 	self = self.surge_analysis();
 	self = self.yield_analysis();
 	self = self.fatigue_analysis();
-	if self.SF_fatigue < given.SF_fatigue_min
+	if self.SF_surge < given.SF_surge_min || self.SF_buckling < given.SF_buckling_min || self.SF_fatigue < given.SF_fatigue_min
 		self.cost = inf;
 		return;
 	end
@@ -63,7 +72,7 @@ function print(self)
 	file.print('d = %g m', self.d);
 	file.print('C = %g', self.C);
 	file.print('D = %g m', self.D);
-	file.print('delta_cl = %g m', 0.1*self.given.delta_max);
+	file.print('delta_cl = %g m', self.delta_cl);
 	file.print('k = %g N/m', self.k);
 	file.print('N_a = %g', self.N_a);
 	file.print('N_t = %g', self.N_t);
@@ -73,7 +82,7 @@ function print(self)
 	file.print('K_s = %g', self.K_s);
 	file.print('K_w = %g', self.K_w);
 	file.print('L_f/D = %g', self.L_f/self.D);
-	file.print('delta_max/L_f = %g', self.given.delta_max/self.L_f);
+	file.print('delta_max/L_f = %g', self.delta_max/self.L_f);
 	file.print('SF_buckling = %g', self.SF_buckling);
 	file.print('m = %g kg', self.m);
 	file.print('f_n = %g Hz', self.f_n);
@@ -96,41 +105,11 @@ function better = is_better(self, other)
 end
 end
 methods (Access = private)
-function self = calculate_independents(self)
-	self.D = self.C*self.d;
-	self.S_ut = self.material.find_strength(self.d);
-	self.S_us = self.S_ut*self.given.S_us_percentage;
-	self.S_y = self.S_ut*self.given.S_y_percentage;
-	self.S_ys = self.S_ut*self.given.S_ys_percentage;
-	self.S_s = self.S_ut*self.given.S_s_percentage;
-	self.K_s = 1+0.5/self.C;
-	self.K_w = (4*self.C-1)/(4*self.C-4)+0.615/self.C;
-end
-function N_t_min = find_yield_limit(self)
-	N_a_min = self.K_s*1.1*self.given.delta_max*self.given.G*self.given.SF_yield_min/pi/self.d/self.C^2/self.S_ys;
-	N_t_min = N_a_min+2;
-end
-function N_t_max = find_surge_limit(self)
-	N_a_max = self.given.G*self.d/8/self.C^3/self.given.M/self.given.SF_surge_min^2*self.given.f^2;
-	N_t_max = N_a_max+2;
-end
-function N_t_max = find_buckling_limit(self)
-	delta_cr_min = self.given.SF_buckling_min*self.given.delta_max;
-	L_f_max = max(self.given.c_1*self.given.c_2*self.D^2/2/delta_cr_min/self.given.alpha+delta_cr_min/2/self.given.c_1, sqrt(self.given.c_2)*self.D/self.given.alpha);
-	L_s_max = L_f_max-1.1*self.given.delta_max;
-	N_t_max = L_s_max/self.d-1;
-end
-function self = calculate_dependents(self)
-	self.N_a = self.N_t-2;
-	self.k = self.given.G*self.d/8/self.C^3/self.N_a;
-	self.L_s = (self.N_t+1)*self.d;
-	self.L_f = self.L_s+1.1*self.given.delta_max;
-end
 function self = buckling_analysis(self)
 	lambda_eff = 0.5*self.L_f/self.D;
 	if self.given.c_2/lambda_eff^2 <= 1
 		delta_cr = self.L_f*self.given.c_1*(1-sqrt(1-self.given.c_2/lambda_eff^2));
-		self.SF_buckling = delta_cr/self.given.delta_max;
+		self.SF_buckling = delta_cr/self.delta_max;
 	else
 		self.SF_buckling = inf;
 	end
@@ -141,7 +120,7 @@ function self = surge_analysis(self)
 	self.SF_surge = self.f_n/self.given.f;
 end
 function self = yield_analysis(self)
-	self.F_s = self.k*1.1*self.given.delta_max;
+	self.F_s = self.k*self.delta_s;
 	self.tau_s = self.K_s*8*self.F_s*self.C/pi/self.d^2;
 	self.SF_yield = self.S_ys/self.tau_s;
 end
