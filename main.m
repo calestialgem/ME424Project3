@@ -17,7 +17,7 @@ for material = materials
 	for C = given.C_min:0.1:given.C_max
 		for d = material.d_range
 			current = result(given, material, C, d);
-			if isempty(optimum) || optimum.compare(current);
+			if current.is_better(optimum)
 				optimum = current;
 			end
 		end

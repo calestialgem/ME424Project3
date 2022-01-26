@@ -91,8 +91,8 @@ function print(self)
 	file.print('Material = %s', self.material.name)
 	file.print('cost = %g ₺', self.cost);
 end
-function better = compare(self, other)
-	better = self.cost > other.cost;
+function better = is_better(self, other)
+	better = isempty(other) || other.cost > self.cost;
 end
 end
 methods (Access = private)
