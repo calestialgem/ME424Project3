@@ -14,8 +14,10 @@ materials = [
 ];
 optimum = [];
 for material = materials
-	for C = given.C_min:0.1:given.C_max
-		for d = material.d_range
+	for d = material.d_range
+		S_ys = material.find_strength(d)*given.S_ys_percentage;
+		C_yield = S_ys*pi*d^2/given.SF_yield_min/8/(1.1*given.F_max-0.1*given.F_min);
+		for C = given.C_min:0.1:min(given.C_max, C_yield)
 			current = result(given, material, C, d);
 			if current.is_better(optimum)
 				optimum = current;
