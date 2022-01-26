@@ -5,7 +5,7 @@ properties
 	f
 	F_min
 	F_max
-	delta_max
+	delta_working
 	M
 	C_min
 	C_max
@@ -31,7 +31,7 @@ function self = given(a, b)
 	self.f = (200+3*self.b)/60;
 	self.F_min = 100+12*self.a;
 	self.F_max = 800+12*self.a;
-	self.delta_max = (20+0.5*self.b)*1e-3;
+	self.delta_working = (20+0.5*self.b)*1e-3;
 	self.M = 0.3+0.05*self.a;
 	self.C_min = 4;
 	self.C_max = 12;
