@@ -111,7 +111,7 @@ function N_t_min = find_yield_limit(self)
 	N_t_min = N_a_min+2;
 end
 function N_t_max = find_surge_limit(self)
-	N_a_max = self.given.G*self.d*pi^2/8/self.C^3/self.given.M/self.given.SF_surge_min^2*self.given.f^2;
+	N_a_max = self.given.G*self.d/8/self.C^3/self.given.M/self.given.SF_surge_min^2*self.given.f^2;
 	N_t_max = N_a_max+2;
 end
 function N_t_max = find_buckling_limit(self)
@@ -137,7 +137,7 @@ function self = buckling_analysis(self)
 end
 function self = surge_analysis(self)
 	self.m = pi*self.d^2/4*pi*self.D*self.N_a*self.given.rho;
-	self.f_n = pi*sqrt(self.k/self.given.M);
+	self.f_n = sqrt(self.k/self.given.M);
 	self.SF_surge = self.f_n/self.given.f;
 end
 function self = yield_analysis(self)
