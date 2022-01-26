@@ -48,5 +48,6 @@ title(title_string);
 xlabel('N_a');
 ylabel('f_n (Hz)');
 plot(N_a_range, f_n_range, 'LineWidth', 2);
+plot(N_a_range, (given.G*d/8/C^3/given.M./N_a_range).^0.5, 'LineWidth', 2);
 yline(given.f, '--', 'LineWidth', 2);
 saveas(gcf, title_string + ".jpg", 'jpeg');
