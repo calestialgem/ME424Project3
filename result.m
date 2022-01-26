@@ -126,7 +126,7 @@ function self = yield_analysis(self)
 end
 function self = fatigue_analysis(self)
 	self.tau_a = self.K_w*8*(self.given.F_max-self.given.F_min)/2*self.C/pi/self.d^2;
-	self.tau_m = self.K_w*8*abs(self.given.F_max+self.given.F_min)*self.C/pi/self.d^2;
+	self.tau_m = self.K_w*8*abs(self.given.F_max+self.given.F_min)/2*self.C/pi/self.d^2;
 	S_f = self.S_s/2/(1-self.S_s/2/self.S_us);
 	self.SF_fatigue = 1/(self.tau_a/S_f+self.tau_m/self.S_us);
 end

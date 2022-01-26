@@ -17,7 +17,7 @@ for material = materials
 	for d = material.d_range
 		S_ys = material.find_strength(d)*given.S_ys_percentage;
 		C_yield = S_ys*pi*d^2/given.SF_yield_min/8/(1.1*given.F_max-0.1*given.F_min);
-		for C = given.C_min:0.1:min(given.C_max, C_yield)
+		for C = given.C_min:0.01:min(given.C_max, C_yield)
 			current = result(given, material, C, d);
 			if current.is_better(optimum)
 				optimum = current;
@@ -27,5 +27,3 @@ for material = materials
 end
 optimum.print();
 toc();
-second_solution = result(given, materials(1), 5.61, 6e-3);
-second_solution.print();
