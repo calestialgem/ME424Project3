@@ -1,6 +1,7 @@
 clc();
 clear();
 close('all');
+tic();
 % Cem GEÇGEL					2018405033	a = 3
 % Mustafa Çağatay SİPAHİOĞLU	2018405171	b = 1
 given = given(3, 1);
@@ -23,3 +24,4 @@ for material = materials
 	end
 end
 optimum.print();
+toc();
